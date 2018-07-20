@@ -18,7 +18,7 @@ y = []
 for i in range(original_image.shape[0]):
     for j in range(original_image.shape[1]):
         if positive_examples[i][j].tolist() != [0,0,0]:
-            x.append([i,j,original_image[i][j][0],original_image[i][j][1],original_image[i][j][2]])
+            x.append([256.0 * i / 677.0,256.0 * j/ 677.0,original_image[i][j][0],original_image[i][j][1],original_image[i][j][2]])
             y.append(1)
 
 for i in range(original_image.shape[0]):
@@ -27,15 +27,9 @@ for i in range(original_image.shape[0]):
             x.append([i,j,original_image[i][j][0],original_image[i][j][1],original_image[i][j][2]])
             y.append(0)
 
-x_train = []
+x_train = np.zeros((len(x), len(x)))
 y_train = np.asarray(y)
 
-for i in range(len(x)):
-    print(i, len(x))
-    features = []
-    for j in range(len(x)):
-        features.append(np.exp(-1*np.linalg.norm(np.asarray(x[i]) -np.asarray( x[j]))))
-    x_train.append(features)
 
 
 x_train = np.asarray(x_train)
