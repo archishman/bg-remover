@@ -27,9 +27,16 @@ for i in range(original_image.shape[0]):
             x.append([i,j,original_image[i][j][0],original_image[i][j][1],original_image[i][j][2]])
             y.append(0)
 
-x_train = np.zeros((len(x), len(x)))
-y_train = np.asarray(y)
+y_train = tf.convert_to_tensor(np.asarray(y))
+x_train = tf.convert_to_tensor(np.asarray(x))
 
+A = tf.matmul(tf.multiply(x_train, x_train), tf.convert_to_tensor(np.ones((5,len(x)))))
 
+B = tf.transpose(A)
 
-x_train = np.asarray(x_train)
+C = tf.scalar_mul(2, tf.matmul(x_train, tf.transpose(x_train)))
+
+D = tf.subtract(tf.add(A, B), C)
+
+with tf.Session() as sess:
+    print(sess.run(D))
